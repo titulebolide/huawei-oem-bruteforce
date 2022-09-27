@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# unlock Huawei bootloader
+# Unlock Huawei bootloader with bruteforce
 
 ## Summary
 
@@ -7,9 +6,15 @@ After closing the official EMUI website, which allowed you to retrieve the code 
 
 It uses a bruteforce method, based on the Luhn algorithm and the IMEI identifier used by the manufacturer to generate the unlocking code.
 
-The original version was developed by [SkyEmi](https://github.com/SkyEmie). I made some tweaks for saving failed attempts to file, because brutforcing is taking a **looooooong** time. I'm trying to hack my P20 Pro with this. Because Huawei placed another obstacle in th way, as you have 5 attempts for inserting the unlook key, than your phone will restart automatically. So I have to reboot in fastboot mode every 4 attempts. This increases the amount of time while trying, but couldn't find a better solution. 
+The original version was developed by [SkyEmi](https://github.com/SkyEmie). I made some tweaks for saving failed attempts to file, because brutforcing is taking a **looooooong** time.
 
 ## Instructions
+
+### Prerequisites
+- Python > 3.7
+- PyPI
+- ADB
+- Fastboot
 
 ### Connecting a device in ADB mode
 
@@ -17,23 +22,29 @@ The original version was developed by [SkyEmi](https://github.com/SkyEmie). I ma
 
     * Go to Settings > System > About device > tap _Build number_ seven times to enable developer options.
 
-2. Enable USB debugging in Android.
+2. Enable USB debugging and OEM unlock in Android.
 
-    * Go to Settings > System > Developer options and enable USB debugging.
+    * Go to Settings > System > Developer options.
 
 3. Connect your device to the computer 
 
-4. ``` 
-    git clone https://github.com/haexhub/huaweiBootloaderHack.git
-    cd huaweiBootloaderHack
-    python3 unlock.py <IMEI>
-    ```
-4. Make a few cups of coffee or tea => sleep => repeat :D
+4. Replace IMEI_OF_YOUR_DEVICE by the first IMEI of your phone in this script:
+``` bash
+git clone https://github.com/titulebolide/huaweiBootloaderHack.git
+cd huaweiBootloaderHack
+python3 unlock.py IMEI_OF_YOUR_DEVICE
+```
+
+5. Some devices have a bruteforce protection, preventing trying more than five codes. In this case, you will have to invoke the script with the option attempt-limit:
+```bash
+python3 unlock.py --attempt-limit 5 IMEI_OF_YOUR_DEVICE
+```
+
+6. If you want to pause the process you can simply exit the script by pressing `CTRL+C`. Write down the last shown "Attempt no.".
+   - To resume invoke the script like so: `python3 --resume-count ATTEMPT_NO IMEI_OF_YOUR_DEVICE`
+   - If you were using an attempt-limit use: `python3 --resume-count ATTEMPT_NO --attempt-limit 5 IMEI_OF_YOUR_DEVICE`
+
+7. Make a few cups of coffee or tea => sleep => repeat :D
 
 ## FAQ & Troubleshooting
-
-**The application doesn't work. Is there anything I should have installed?**
-
-Yes, it was developed with python3 so you'll need it. You can install the latest version from [here](https://www.python.org/downloads/).
-You also need [adb](https://www.xda-developers.com/install-adb-windows-macos-linux/) installed
-as well as [fastboot](https://www.droidwiki.org/wiki/Fastboot_(Tool))
+If adb and fastboot are not found, you can try manually setting their path with the flags `--adb` and `--fastboot`. All in all, the `python3 unlock.py --help` manual can always be resourceful.
