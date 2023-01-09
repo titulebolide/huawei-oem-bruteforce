@@ -20,7 +20,7 @@ def luhn_checksum(imei):
 def tryUnlockBootloader(imei, fastboot, limit_attempt = -1, resume_count_at = 0):
   unlocked = False
   countAttempts = resume_count_at
-  limit_attempt = limitAttempt if limit_attempt > 0 else 40000
+  limit_attempt = limit_attempt if limit_attempt > 0 else 40000
     
   while(unlocked == False):
     algoOEMcode = 1000000000000000 + countAttempts * int(math.sqrt(imei) * 1024)
