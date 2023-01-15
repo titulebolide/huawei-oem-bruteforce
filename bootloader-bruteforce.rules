@@ -1,0 +1,2 @@
+ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="107e", RUN+="touch /home/pi/usb"
+

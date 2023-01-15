@@ -118,6 +118,7 @@ def main(resume_count, limit_attempt, fastboot, adb, imei):
   codeOEM = tryUnlockBootloader(imei, fastboot, limit_attempt, resume_count)
 
   subprocess.run([fastboot, 'getvar', 'unlocked'])
+  # could also be a different command to check unlock status
   subprocess.run([fastboot, 'reboot'])
 
   print('\n\nDevice unlocked! OEM CODE: {0}'.format(codeOEM))
